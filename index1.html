@@ -7,18 +7,22 @@
     <meta http-equiv="x-ua-compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
+
     <style>
-        html, body {
+        html,
+        body {
             height: 100%;
             margin: 0;
             padding: 0;
         }
+        
         #map {
             height: 100%;
         }
     </style>
 
-    <title>Boboulo test</title>
+    <title>Boboulo</title>
 
     <link rel="stylesheet" href="css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -30,13 +34,10 @@
 
 <body>
 
-    <nav class="navbar navbar-inverse navbar-fixed-top"
-         role="navigation">
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed"
-                data-toggle="collapse" data-target="#navbar" aria-expanded="false"
-                aria-controls="navbar">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -46,8 +47,10 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="#">
-                        <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Home</a></li>
+                    <li class="active">
+                        <a href="#">
+                            <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Home</a>
+                    </li>
                     <li><a href="aboutus_ori.html"><span class="glyphicon glyphicon-info-sign"
                                                          aria-hidden="true"></span> About</a></li>
 
@@ -92,7 +95,7 @@
             <div class="col-xs-12 col-sm-9 col-sm-pull-3">
                 <h2>Applications state</h2>
                 <div id="piechart" style="width: 900px; height: 500px;"></div>
-                <p><a  href="#">More &raquo;</a></p>
+                <p><a href="#">More &raquo;</a></p>
             </div>
         </div>
 
@@ -103,7 +106,7 @@
                 <h3 align=center>Locations</h3>
             </div>
             <div class="col-xs-12 col-sm-9" style="height: 500px">
-                <p><a  href="#">More &raquo;</a></p>
+                <p><a href="#">More &raquo;</a></p>
                 <button id="btn">OK</button>
                 <div id="map"></div>
             </div>
@@ -111,7 +114,7 @@
 
         <div class="row row-content">
             <div class="col-xs-12 col-sm-3 col-sm-push-9">
-               <p style="padding:20px;"></p>
+                <p style="padding:20px;"></p>
                 <h3 align=center>Applications List</h3>
             </div>
             <div class="col-xs-12 col-sm-9 col-sm-pull-3">
@@ -147,19 +150,14 @@
                 </div>
                 <div class="col-xs-12 col-sm-4">
                     <div class="nav navbar-nav" style="padding: 40px 10px;">
-                        <a class="btn btn-social-icon btn-google-plus"
-                           href="http://google.com/+"><i class="fa fa-google-plus"></i></a>
-                        <a class="btn btn-social-icon btn-facebook"
-                           href="http://www.facebook.com/profile.php?id=">
+                        <a class="btn btn-social-icon btn-google-plus" href="http://google.com/+"><i class="fa fa-google-plus"></i></a>
+                        <a class="btn btn-social-icon btn-facebook" href="http://www.facebook.com/profile.php?id=">
                             <i class="fa fa fa-facebook"></i></a>
-                        <a class="btn btn-social-icon btn-linkedin"
-                           href="http://www.linkedin.com/in/">
+                        <a class="btn btn-social-icon btn-linkedin" href="http://www.linkedin.com/in/">
                             <i class="fa fa-linkedin"></i></a>
-                        <a class="btn btn-social-icon btn-twitter"
-                           href="http://twitter.com/">
+                        <a class="btn btn-social-icon btn-twitter" href="http://twitter.com/">
                             <i class="fa fa-twitter"></i></a>
-                        <a class="btn btn-social-icon btn-youtube"
-                           href="http://youtube.com/">
+                        <a class="btn btn-social-icon btn-youtube" href="http://youtube.com/">
                             <i class="fa fa-youtube"></i></a>
                         <a href="mailto:"><i class="fa fa-envelope-o"></i></a>
                     </div>
@@ -174,9 +172,11 @@
 
 
     <script>
-
         var map;
-        var myLatlng = {lat: -25.363, lng: 131.044};
+        var myLatlng = {
+            lat: -25.363,
+            lng: 131.044
+        };
         var geo;
         var geocoder;
 
@@ -192,7 +192,7 @@
                 title: 'Click to zoom'
             });
 
-            marker.addListener('click', function() {
+            marker.addListener('click', function () {
                 map.setZoom(8);
                 map.setCenter(marker.getPosition());
             });
@@ -202,7 +202,9 @@
         }
 
         function geocodeAddress(address) {
-            geocoder.geocode({'address': address}, function(results, status) {
+            geocoder.geocode({
+                'address': address
+            }, function (results, status) {
                 if (status === google.maps.GeocoderStatus.OK) {
                     map.setCenter(results[0].geometry.location);
                     map.setZoom(12);
@@ -216,41 +218,43 @@
             });
         }
 
-       document.getElementById("btn").addEventListener("click",function(){
-           geocodeAddress("marinduque philippines");
-       });
+        document.getElementById("btn").addEventListener("click", function () {
+            geocodeAddress("marinduque philippines");
+        });
 
-        var x=-25;
-        var y=133;
+        var x = -25;
+        var y = 133;
 
 
-        function addMarker(){
+        function addMarker() {
             var marker = new google.maps.Marker({
-                position: {lat: x++, lng: y++},
+                position: {
+                    lat: x++,
+                    lng: y++
+                },
                 map: map,
                 title: 'Click to zoom'
             });
         }
-
-
-
     </script>
 
     <script src="https://www.gstatic.com/charts/loader.js"></script>
 
     <script>
-
-        google.charts.load('current', {'packages':['corechart']});
+        google.charts.load('current', {
+            'packages': ['corechart']
+        });
         google.charts.setOnLoadCallback(drawChart);
+
         function drawChart() {
 
             var data = google.visualization.arrayToDataTable([
                 ['Task', 'Hours per Day'],
-                ['Giliw kiss',     11],
-                ['Eat with giliw',      2],
-                ['Commute',  2],
+                ['Giliw kiss', 11],
+                ['Eat with giliw', 2],
+                ['Commute', 2],
                 ['Watch TV', 2],
-                ['Sleep with giliw',    7]
+                ['Sleep with giliw', 7]
             ]);
 
             var options = {
@@ -263,13 +267,12 @@
             chart.draw(data, options);
 
         }
-
     </script>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD2POV4QB0x48pf1YHsts9bX49P6eVMiOU&callback=initMap"
-            async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD2POV4QB0x48pf1YHsts9bX49P6eVMiOU&callback=initMap" async defer></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script src="model.js"></script>
 
 </body>
 
