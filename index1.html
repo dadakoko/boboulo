@@ -104,6 +104,7 @@
             </div>
             <div class="col-xs-12 col-sm-9" style="height: 500px">
                 <p><a  href="#">More &raquo;</a></p>
+                <button id="btn">OK</button>
                 <div id="map"></div>
             </div>
         </div>
@@ -176,6 +177,8 @@
 
         var map;
         var myLatlng = {lat: -25.363, lng: 131.044};
+        var geo;
+        var geocoder;
 
         function initMap() {
             map = new google.maps.Map(document.getElementById('map'), {
@@ -194,10 +197,28 @@
                 map.setCenter(marker.getPosition());
             });
 
+            geocoder = new google.maps.Geocoder();
 
         }
 
-/*        document.getElementById("btn").addEventListener("click",addMarker);
+        function geocodeAddress(address) {
+            geocoder.geocode({'address': address}, function(results, status) {
+                if (status === google.maps.GeocoderStatus.OK) {
+                    map.setCenter(results[0].geometry.location);
+                    map.setZoom(12);
+                    var marker = new google.maps.Marker({
+                        map: map,
+                        position: results[0].geometry.location,
+                    });
+                } else {
+                    alert('Geocode was not successful for the following reason: ' + status);
+                }
+            });
+        }
+
+       document.getElementById("btn").addEventListener("click",function(){
+           geocodeAddress("marinduque philippines");
+       });
 
         var x=-25;
         var y=133;
@@ -210,8 +231,6 @@
                 title: 'Click to zoom'
             });
         }
-
-*/
 
 
 
@@ -227,11 +246,11 @@
 
             var data = google.visualization.arrayToDataTable([
                 ['Task', 'Hours per Day'],
-                ['Work',     11],
-                ['Eat',      2],
+                ['Giliw kiss',     11],
+                ['Eat with giliw',      2],
                 ['Commute',  2],
                 ['Watch TV', 2],
-                ['Sleep',    7]
+                ['Sleep with giliw',    7]
             ]);
 
             var options = {
@@ -247,11 +266,10 @@
 
     </script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD2POV4QB0x48pf1YHsts9bX49P6eVMiOU&callback=initMap"
             async defer></script>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
 
 </body>
 
