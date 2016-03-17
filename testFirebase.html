@@ -1,32 +1,214 @@
 <html>
-  <head>
+
+<head>
     <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
     <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
-    <link rel='stylesheet' type='text/css' href='/resources/tutorial/css/example.css'>
-  </head>
-  <body>
+</head>
+
+<body>
     <div id='messagesDiv'></div>
     <input type='text' id='nameInput' placeholder='Name'>
     <input type='text' id='messageInput' placeholder='Message'>
     <script>
-      //var myDataRef = new Firebase('https://d4riwejbb99.firebaseio-demo.com/');
-      var myDataRef = new Firebase('https://d4riwejbb99.firebaseio-demo.com/');
-      $('#messageInput').keypress(function (e) {
-        if (e.keyCode == 13) {
-          var name = $('#nameInput').val();
-          var text = $('#messageInput').val();
-          myDataRef.push({name: name, text: text});
-          $('#messageInput').val('');
+        var myDataRef = new Firebase('https://d4riwejbb99.firebaseio-demo.com/');
+        var applicationsRef = myDataRef.child("applications");
+        var companiesRef = myDataRef.child("companies");
+        var categoriesRef = myDataRef.child("categories");
+        
+        //initFire();
+
+        //list of all applications (company name and position) for a user
+        applicationsRef.child("luis").on("child_added", function (snapshot) {
+            console.log("luis applications : " + snapshot.val().company + " " + snapshot.val().position);
+        }, function (errorObject) {
+            console.log("The read failed: " + errorObject.code);
+        });
+
+        applicationsRef.child("dadakoko").on("child_added", function (snapshot) {
+            console.log("david applications : " + snapshot.val().company + " " + snapshot.val().position);
+        });
+
+        //list of all applications (company name and address) for a user
+        applicationsRef.child("dadakoko").on("value", function (snapshot) {
+            snapshot.forEach(function (data) {
+                var queryRef = companiesRef.child(data.val().company);
+                queryRef.on("value", function (querySnapshot) {
+                    console.log("david applications pour company : " + querySnapshot.val().name + " a: " + querySnapshot.val().address);
+                });
+            });
+        });
+
+
+        //list of companies
+        //list of users
+        //list of states
+        //list of categories
+
+
+        //dadakoko add a new application
+        //first add the company that is not stored yet
+        var cern = {
+            cern: {
+                name: "CERN",
+                address: "meyrin"
+            }
+        };
+        companiesRef.update(cern);
+        //second: add dadakoko as a candidate
+        companiesRef.child("cern").child("candidates").update({
+            "dadakoko": true
+        });
+        //finally: add the application
+        var application6 = {
+            date: "31/12",
+            state: "ongoing",
+            company: "cern",
+            position: "particule elementaire",
+            categories: {
+                cascade: true
+            }
+        };
+        applicationsRef.child("dadakoko").push().set(application6);
+
+
+        function initFire() {
+            var users = {
+                users: {
+                    dadakoko: {
+                        username: "California",
+                        friends: {
+                            luis: true,
+                            ella: true
+                        }
+                    },
+                    luis: {
+                        username: "luisb",
+                        friends: {
+                            dadakoko: true
+                        }
+                    },
+                    ella: {
+                        username: "elafizt",
+                        friends: {
+                            dadakoko: true
+                        }
+                    }
+                }
+            };
+
+            myDataRef.set(users);
+
+            var luisRef = applicationsRef.child("luis");
+
+            var application1 = {
+                date: "10/07",
+                state: "ongoing",
+                company: "sacpi",
+                position: "president director",
+                categories: {
+                    informatique: true,
+                    management: true
+                }
+            };
+
+            var application3 = {
+                date: "10/10",
+                state: "rejected",
+                company: "pectit",
+                position: "trader",
+                categories: {
+                    shark: true
+                }
+            };
+
+            luisRef.push().set(application3);
+            luisRef.push().set(application1);
+
+            var dadaRef = applicationsRef.child("dadakoko");
+            var application2 = {
+                date: "23/10",
+                state: "ongoing",
+                company: "pectit",
+                position: "web developer",
+                categories: {
+                    shark: true
+                }
+            };
+
+            var application4 = {
+                date: "31/12",
+                state: "accepted",
+                company: "nomades",
+                position: "prof",
+                categories: {
+                    prof: true,
+                    informatique: true
+                }
+            };
+
+            dadaRef.push().set(application4);
+            dadaRef.push().set(application2);
+
+            var ellaRef = applicationsRef.child("ella");
+            var application5 = {
+                date: "31/12",
+                state: "accepted",
+                company: "nomades",
+                position: "prof",
+                categories: {
+                    prof: true,
+                    informatique: true
+                }
+            };
+
+            ellaRef.push().set(application5);
+
+            var companies = {
+                sacpi: {
+                    name: "sacpi SA",
+                    address: "prilly",
+                    candidates: {
+                        luis: true
+                    }
+                },
+                pectit: {
+                    name: "pectit bank",
+                    address: "petit lancy",
+                    candidates: {
+                        dadakoko: true,
+                        luis: true
+                    }
+                },
+                nomades: {
+                    name: "nomades ateliers",
+                    address: "rue des acacias geneve",
+                    candidates: {
+                        dadakoko: true,
+                        ella: true
+                    }
+                },
+                victoria: {
+                    name: "victoria hall",
+                    address: "plainpalais geneve",
+                    candidates: {}
+                }
+            };
+
+            companiesRef.set(companies);
+
+            var categories = {
+                informatique: true,
+                shark: true,
+                prof: true,
+                cascade: true,
+                music: true
+            };
+
+            categoriesRef.set(categories);
+
         }
-      });
-      myDataRef.on('child_added', function(snapshot) {
-        var message = snapshot.val();
-        displayChatMessage(message.name, message.text);
-      });
-      function displayChatMessage(name, text) {
-        $('<div/>').text(text).prepend($('<em/>').text(name+': ')).appendTo($('#messagesDiv'));
-        $('#messagesDiv')[0].scrollTop = $('#messagesDiv')[0].scrollHeight;
-      };
+        
     </script>
-  </body>
+</body>
+
 </html>
