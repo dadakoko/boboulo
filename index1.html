@@ -95,6 +95,8 @@
             <div class="col-xs-12 col-sm-9 col-sm-pull-3">
                 <h2>Applications state</h2>
                 <div id="piechart" style="width: 900px; height: 500px;"></div>
+                <input id="pieInput" type="text">
+                <button id="pieBtn">OK</button>
                 <p><a href="#">More &raquo;</a></p>
             </div>
         </div>
@@ -238,6 +240,291 @@
         }
     </script>
 
+    <script>
+        document.getElementById("pieBtn").addEventListener("click", updatePie);
+
+        function updatePie() {
+            var appPerCategories = [];
+            var counter = 0;
+            var name = document.getElementById('pieInput').value;
+
+            appPerCategories.push(['Applications', 'number of app per categories']);
+
+
+            applicationsRef.child(name).once("value", function (snapshot) {
+
+                snapshot.forEach(function (data) {
+                    console.log(name + " applications : company : " + data.val().company);
+                    $.each(data.val().categories, function (i, n) {
+                        console.log(name + " category : " + i);
+                        counter += 10;
+                        var tmp = [i, counter];
+                        appPerCategories.push(tmp);
+                    });
+                    var queryRef = companiesRef.child(data.val().company);
+                    queryRef.on("value", function (querySnapshot) {
+                        console.log(name + " applications pour company : " + querySnapshot.val().name + " a: " + querySnapshot.val().address);
+                    });
+                });
+
+                var data = google.visualization.arrayToDataTable(appPerCategories);
+
+                var options = {
+                    title: 'My applications',
+                    is3D: true,
+                };
+
+                var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+                chart.draw(data, options);
+
+
+            });
+
+
+
+        }
+    </script>
+
+    <script>
+        var myDataRef = new Firebase('https://d4riwejbb99.firebaseio-demo.com/');
+        var applicationsRef = myDataRef.child("applications");
+        var companiesRef = myDataRef.child("companies");
+        var categoriesRef = myDataRef.child("categories");
+        var statesRef = myDataRef.child("states");
+
+
+        var categories;
+
+        //initFire();
+
+        /*
+                //list of all applications (company name and position) for a user
+                applicationsRef.child("luis").on("child_added", function (snapshot) {
+                    console.log("luis applications : " + snapshot.val().company + " " + snapshot.val().position);
+                }, function (errorObject) {
+                    console.log("The read failed: " + errorObject.code);
+                });
+
+                applicationsRef.child("dadakoko").on("child_added", function (snapshot) {
+                    console.log("david applications : " + snapshot.val().company + " " + snapshot.val().position);
+                });
+
+                //list of all applications (company name and address) for a user
+                applicationsRef.child("dadakoko").on("value", function (snapshot) {
+                    snapshot.forEach(function (data) {
+                        var queryRef = companiesRef.child(data.val().company);
+                        queryRef.on("value", function (querySnapshot) {
+                            console.log("david applications pour company : " + querySnapshot.val().name + " a: " + querySnapshot.val().address);
+                        });
+                    });
+                });
+        */
+
+        //list of companies
+        //list of users
+        //list of states
+        //list of categories
+        categoriesRef.once("value", function (snap) {
+            categories = $.map(snap.val(), function (value, index) {
+                return [index];
+            });
+            var applicationPerCategories = [];
+            applicationPerCategories.push(['Applications', 'number of app per categories']);
+            $.each(categories, function (i, n) {
+                var tmp = [n, 10];
+                applicationPerCategories.push(tmp);
+            });
+
+            console.log(applicationPerCategories);
+            var data = google.visualization.arrayToDataTable(applicationPerCategories);
+
+            var options = {
+                title: 'My applications',
+                is3D: true,
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+            chart.draw(data, options);
+
+
+        });
+
+
+        /*
+                //dadakoko add a new application
+                //first add the company that is not stored yet
+                var cern = {
+                    cern: {
+                        name: "CERN",
+                        address: "meyrin"
+                    }
+                };
+                companiesRef.update(cern);
+                //second: add dadakoko as a candidate
+                companiesRef.child("cern").child("candidates").update({
+                    "dadakoko": true
+                });
+                //finally: add the application
+                var application6 = {
+                    date: "31/12",
+                    state: "ongoing",
+                    company: "cern",
+                    position: "particule elementaire",
+                    categories: {
+                        cascade: true
+                    }
+                };
+                applicationsRef.child("dadakoko").push().set(application6);
+        */
+
+        function initFire() {
+            var users = {
+                users: {
+                    dadakoko: {
+                        username: "California",
+                        friends: {
+                            luis: true,
+                            ella: true
+                        }
+                    },
+                    luis: {
+                        username: "luisb",
+                        friends: {
+                            dadakoko: true
+                        }
+                    },
+                    ella: {
+                        username: "elafizt",
+                        friends: {
+                            dadakoko: true
+                        }
+                    }
+                }
+            };
+
+            myDataRef.set(users);
+
+            var luisRef = applicationsRef.child("luis");
+
+            var application1 = {
+                date: "10/07",
+                state: "ongoing",
+                company: "sacpi",
+                position: "president director",
+                categories: {
+                    informatique: true,
+                    management: true
+                }
+            };
+
+            var application3 = {
+                date: "10/10",
+                state: "rejected",
+                company: "pectit",
+                position: "trader",
+                categories: {
+                    shark: true
+                }
+            };
+
+            luisRef.push().set(application3);
+            luisRef.push().set(application1);
+
+            var dadaRef = applicationsRef.child("dadakoko");
+            var application2 = {
+                date: "23/10",
+                state: "ongoing",
+                company: "pectit",
+                position: "web developer",
+                categories: {
+                    shark: true
+                }
+            };
+
+            var application4 = {
+                date: "31/12",
+                state: "accepted",
+                company: "nomades",
+                position: "prof",
+                categories: {
+                    prof: true,
+                    informatique: true
+                }
+            };
+
+            dadaRef.push().set(application4);
+            dadaRef.push().set(application2);
+
+            var ellaRef = applicationsRef.child("ella");
+            var application5 = {
+                date: "31/12",
+                state: "accepted",
+                company: "nomades",
+                position: "prof",
+                categories: {
+                    prof: true,
+                    informatique: true
+                }
+            };
+
+            ellaRef.push().set(application5);
+
+            var companies = {
+                sacpi: {
+                    name: "sacpi SA",
+                    address: "prilly",
+                    candidates: {
+                        luis: true
+                    }
+                },
+                pectit: {
+                    name: "pectit bank",
+                    address: "petit lancy",
+                    candidates: {
+                        dadakoko: true,
+                        luis: true
+                    }
+                },
+                nomades: {
+                    name: "nomades ateliers",
+                    address: "rue des acacias geneve",
+                    candidates: {
+                        dadakoko: true,
+                        ella: true
+                    }
+                },
+                victoria: {
+                    name: "victoria hall",
+                    address: "plainpalais geneve",
+                    candidates: {}
+                }
+            };
+
+            companiesRef.set(companies);
+
+            var categories = {
+                informatique: true,
+                shark: true,
+                prof: true,
+                cascade: true,
+                music: true
+            };
+
+            categoriesRef.set(categories);
+
+            var states = {
+                accepted: true,
+                rejected: true,
+                ongoing: true
+            };
+
+            statesRef.set(states);
+
+        }
+    </script>
+
     <script src="https://www.gstatic.com/charts/loader.js"></script>
 
     <script>
@@ -246,33 +533,33 @@
         });
         google.charts.setOnLoadCallback(drawChart);
 
-        function drawChart() {
+        /*        function drawChart() {
 
-            var data = google.visualization.arrayToDataTable([
-                ['Task', 'Hours per Day'],
-                ['Giliw kiss', 11],
-                ['Eat with giliw', 2],
-                ['Commute', 2],
-                ['Watch TV', 2],
-                ['Sleep with giliw', 7]
-            ]);
+                    var data = google.visualization.arrayToDataTable([
+                        ['Task', 'Hours per Day'],
+                        ['Giliw kiss', 11],
+                        ['Eat with giliw', 2],
+                        ['Commute', 2],
+                        ['Watch TV', 2],
+                        ['Sleep with giliw', 7]
+                    ]);
 
-            var options = {
-                title: 'My Daily Activities',
-                is3D: true,
-            };
+                    var options = {
+                        title: 'My Daily Activities',
+                        is3D: true,
+                    };
 
-            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+                    var chart = new google.visualization.PieChart(document.getElementById('piechart'));
 
-            chart.draw(data, options);
+                    chart.draw(data, options);
 
-        }
+                }
+        */
     </script>
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD2POV4QB0x48pf1YHsts9bX49P6eVMiOU&callback=initMap" async defer></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
-    <script src="model.js"></script>
 
 </body>
 
