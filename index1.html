@@ -47,18 +47,25 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li class="active">
-                        <a href="#">
-                            <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Home</a>
+                    <li class="active"><a href="index1.html"><span class="glyphicon glyphicon-home"
+                         aria-hidden="true"></span> Home</a></li>
+                    <li><a href="aboutus.html">
+                        <span class="glyphicon glyphicon-info-sign"
+                         aria-hidden="true"></span> About</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                         role="button" aria-haspopup="true" aria-expanded="false">
+                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                            User <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="createapplication.html">Apply</a></li>
+                            <li><a href="#">Profil</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li class="dropdown-header">Specials</li>
+                            <li><a href="#">Something</a></li>
+                        </ul>
                     </li>
-                    <li><a href="aboutus_ori.html"><span class="glyphicon glyphicon-info-sign"
-                                                         aria-hidden="true"></span> About</a></li>
-
-                    <li><a href="#"><span class="glyphicon glyphicon-user"
-                                          aria-hidden="true"></span> User</a></li>
-                    <li><a href="#"><span class="glyphicon glyphicon-user"
-                                          aria-hidden="true"></span> Adviser</a></li>
-                    <li><a href="#">Contact</a></li>
+                    <li><a href="contactus.html"><i class="fa fa-envelope-o"></i> Contact</a></li>
                 </ul>
             </div>
         </div>
@@ -226,8 +233,7 @@
 
         var x = -25;
         var y = 133;
-
-
+        
         function addMarker() {
             var marker = new google.maps.Marker({
                 position: {
