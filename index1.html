@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
+	<script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
 
     <style>
         html,
@@ -246,51 +247,7 @@
         }
     </script>
 
-    <script>
-        document.getElementById("pieBtn").addEventListener("click", updatePie);
-
-        function updatePie() {
-            var appPerCategories = [];
-            var counter = 0;
-            var name = document.getElementById('pieInput').value;
-
-            appPerCategories.push(['Applications', 'number of app per categories']);
-
-
-            applicationsRef.child(name).once("value", function (snapshot) {
-
-                snapshot.forEach(function (data) {
-                    console.log(name + " applications : company : " + data.val().company);
-                    $.each(data.val().categories, function (i, n) {
-                        console.log(name + " category : " + i);
-                        counter += 10;
-                        var tmp = [i, counter];
-                        appPerCategories.push(tmp);
-                    });
-                    var queryRef = companiesRef.child(data.val().company);
-                    queryRef.on("value", function (querySnapshot) {
-                        console.log(name + " applications pour company : " + querySnapshot.val().name + " a: " + querySnapshot.val().address);
-                    });
-                });
-
-                var data = google.visualization.arrayToDataTable(appPerCategories);
-
-                var options = {
-                    title: 'My applications',
-                    is3D: true,
-                };
-
-                var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-
-                chart.draw(data, options);
-
-
-            });
-
-
-
-        }
-    </script>
+    <script src="js/updatechart.js"></script>
 
     <script>
         var myDataRef = new Firebase('https://d4riwejbb99.firebaseio-demo.com/');
@@ -338,7 +295,7 @@
             var applicationPerCategories = [];
             applicationPerCategories.push(['Applications', 'number of app per categories']);
             $.each(categories, function (i, n) {
-                var tmp = [n, 10];
+                var tmp = [n, 1];
                 applicationPerCategories.push(tmp);
             });
 
@@ -515,6 +472,7 @@
                 shark: true,
                 prof: true,
                 cascade: true,
+                management: true,
                 music: true
             };
 
