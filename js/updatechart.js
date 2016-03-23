@@ -1,6 +1,10 @@
 $(function () {
 
     ///////////////////////////////////////////
+    google.charts.load('current', {
+        'packages': ['corechart']
+    });
+    //google.charts.setOnLoadCallback(drawChart);
 
 
     $("#pieBtn").click(updatePie);
@@ -42,6 +46,8 @@ $(function () {
                 var tmp = [i, n];
                 appPerCategories.push(tmp);
             });
+
+
 
             var data = google.visualization.arrayToDataTable(appPerCategories);
 
