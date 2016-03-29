@@ -1,4 +1,5 @@
         var map;
+        var markers = [];
         var myLatlng = {
             lat: -25.363,
             lng: 131.044
@@ -27,7 +28,20 @@
 
         }
 
-        function geocodeAddress(address) {
+        // Sets the map on all markers in the array.
+        function setMapOnAll(map) {
+            for (var i = 0; i < markers.length; i++) {
+                markers[i].setMap(map);
+            }
+        }
+
+        // Removes the markers from the map, but keeps them in the array.
+        function clearMarkers() {
+            setMapOnAll(null);
+            markers = [];
+        }
+
+        function geocodeAddress(address, companyName) {
             geocoder.geocode({
                 'address': address
             }, function (results, status) {
@@ -37,7 +51,9 @@
                     var marker = new google.maps.Marker({
                         map: map,
                         position: results[0].geometry.location,
+                        title: companyName
                     });
+                    markers.push(marker);
                 } else {
                     alert('Geocode was not successful for the following reason: ' + status);
                 }
@@ -45,7 +61,7 @@
         }
 
         document.getElementById("btn").addEventListener("click", function () {
-            geocodeAddress("marinduque philippines");
+            geocodeAddress("marinduque philippines", "bla");
         });
 
         var x = -25;

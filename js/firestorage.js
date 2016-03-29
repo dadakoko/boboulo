@@ -20,29 +20,29 @@
                 });
 
 
-        /*
-                //dadakoko add a new application
-                //first add the company that is not stored yet
-                var cern = {
-                    cern: {
-                        name: "CERN",
-                        address: "meyrin"
-                    }
-                };
-                companiesRef.update(cern);
-                //second: add dadakoko as a candidate
-                companiesRef.child("cern").child("candidates").update({
-                    "dadakoko": true
-                });
-                //finally: add the application
-                var application6 = {
-                    date: "31/12",
-                    state: "ongoing",
-                    company: "cern",
-                    position: "particule elementaire",
-                    categories: {
-                        cascade: true
-                    }
-                };
-                applicationsRef.child("dadakoko").push().set(application6);
-        */
+                /*
+                        //dadakoko add a new application
+                        //first add the company that is not stored yet
+                        var cern = {
+                            cern: {
+                                name: "CERN",
+                                address: "meyrin"
+                            }
+                        };
+                        companiesRef.update(cern);
+                        //second: add dadakoko as a candidate
+                        companiesRef.child("cern").child("candidates").update({
+                            "dadakoko": true
+                        });
+                        //finally: add the application
+                        var application6 = {
+                            date: "31/12",
+                            state: "ongoing",
+                            company: "cern",
+                            position: "particule elementaire",
+                            categories: {
+                                cascade: true
+                            }
+                        };
+                        applicationsRef.child("dadakoko").push().set(application6);
+                */

@@ -5,7 +5,7 @@ $(function () {
         'packages': ['corechart']
     });
     //google.charts.setOnLoadCallback(drawChart);
-
+    //initFire();
 
     $("#pieBtn").click(updatePie);
 
@@ -14,7 +14,8 @@ $(function () {
         var appCat = [];
         $.each(categories, function (i, n) {
             appCat[n] = 0;
-        })
+        });
+        clearMarkers();
 
 
         var appPerCategories = [];
@@ -34,6 +35,7 @@ $(function () {
                 var queryRef = companiesRef.child(data.val().company);
                 queryRef.on("value", function (querySnapshot) {
                     console.log(name + " applications pour company : " + querySnapshot.val().name + " a: " + querySnapshot.val().address);
+                    geocodeAddress(querySnapshot.val().address, querySnapshot.val().name);
                 });
             });
 
