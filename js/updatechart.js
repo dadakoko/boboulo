@@ -25,6 +25,20 @@
             appPerState.push(tmp);
         }
 
+        var data = google.visualization.arrayToDataTable(appPerCategories);
+
+        var c = allcolors.slice(states.length, states.length + categories.length);
+
+        var options = {
+            title: 'So how are your applications?',
+            is3D: true,
+            colors: c
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechartCategory'));
+
+        chart.draw(data, options);
+
         var data = google.visualization.arrayToDataTable(appPerState);
 
         var c = allcolors.slice(0, states.length);
@@ -35,9 +49,10 @@
             colors: c
         };
 
-        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+        var chart = new google.visualization.PieChart(document.getElementById('piechartState'));
 
         chart.draw(data, options);
+
 
     }
 

@@ -35,6 +35,31 @@
 
         }
 
+        function initMarkerColor() {
+            $.each(states, function (index, val) {
+                var mImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + allcolors[index].substring(1),
+                    new google.maps.Size(21, 34),
+                    new google.maps.Point(0, 0),
+                    new google.maps.Point(10, 34));
+                colorStateMap.set(val, mImage);
+            });
+
+
+            $.each(categories, function (index, val) {
+                var mImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + allcolors[states.length+index].substring(1),
+                    new google.maps.Size(21, 34),
+                    new google.maps.Point(0, 0),
+                    new google.maps.Point(10, 34));
+                colorStateMap.set(val, mImage);
+            });
+
+            pinShadow = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_shadow",
+                new google.maps.Size(40, 37),
+                new google.maps.Point(0, 0),
+                new google.maps.Point(12, 35));
+
+        }
+
 
         // Sets the map on all markers in the array.
         function setMapOnAll(map) {
@@ -70,8 +95,8 @@
                         map: map,
                         position: results[0].geometry.location,
                         title: companyName,
-                        icon: ico
-                            //shadow: pinShadow
+                        icon: ico,
+                        shadow: pinShadow
                     });
                     var infowindow = new google.maps.InfoWindow({
                         content: companyName

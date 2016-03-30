@@ -29,16 +29,15 @@
         states = $.map(snap.val(), function (value, index) {
             return [index];
         });
-        initMarkerStatesColor();
-
-    });
-    //list of categories
-    categoriesRef.once("value", function (snap) {
-        categories = $.map(snap.val(), function (value, index) {
-            return [index];
+        //list of categories
+        categoriesRef.once("value", function (snap) {
+            categories = $.map(snap.val(), function (value, index) {
+                return [index];
+            });
+            initMarkerColor();
         });
-        initMarkerCategoryColor();
 
+        
     });
 
     function getSortedApp(name) {
@@ -57,7 +56,7 @@
                 });
             });
 
-            drawChart(); 
+            drawChart();
 
         });
     }
