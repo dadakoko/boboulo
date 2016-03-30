@@ -1,9 +1,5 @@
         var map;
         var markers = [];
-        var myLatlng = {
-            lat: -25.363,
-            lng: 131.044
-        };
         var geo;
         var geocoder;
 
@@ -12,17 +8,18 @@
 
 
         function initMap() {
+            var myLatlng = {
+                lat: -25.363,
+                lng: 131.044
+            };
             map = new google.maps.Map(document.getElementById('map'), {
                 center: myLatlng,
                 zoom: 1
             });
-
-
             geocoder = new google.maps.Geocoder();
-
         }
 
-        function initColor() {
+        function initMarkerStateColor() {
             $.each(states, function (index, val) {
                 var mImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + allcolors[index].substring(1),
                     new google.maps.Size(21, 34),
@@ -35,6 +32,7 @@
                 new google.maps.Size(40, 37),
                 new google.maps.Point(0, 0),
                 new google.maps.Point(12, 35));
+
         }
 
 
@@ -72,8 +70,8 @@
                         map: map,
                         position: results[0].geometry.location,
                         title: companyName,
-                        icon: ico,
-                        shadow: pinShadow
+                        icon: ico
+                            //shadow: pinShadow
                     });
                     var infowindow = new google.maps.InfoWindow({
                         content: companyName

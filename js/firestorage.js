@@ -1,48 +1,63 @@
-                //list of all applications (company name and position) for a user
-                applicationsRef.child("luis").on("child_added", function (snapshot) {
-                    console.log("luis applications : " + snapshot.val().company + " " + snapshot.val().position);
-                }, function (errorObject) {
-                    console.log("The read failed: " + errorObject.code);
+    var myDataRef = new Firebase('https://d4riwejbb99.firebaseio-demo.com/');
+    var applicationsRef = myDataRef.child("applications");
+    var companiesRef = myDataRef.child("companies");
+    var categoriesRef = myDataRef.child("categories");
+    var statesRef = myDataRef.child("states");
+    var usersRef = myDataRef.child("users");
+
+    var companies;
+    var users;
+    var states;
+    var categories;
+
+    //list of companies
+    companiesRef.once("value", function (snap) {
+        companies = $.map(snap.val(), function (value, index) {
+            return [index];
+        });
+
+    });
+    //list of users
+    usersRef.once("value", function (snap) {
+        users = $.map(snap.val(), function (value, index) {
+            return [index];
+        });
+
+    });
+    //list of states
+    statesRef.once("value", function (snap) {
+        states = $.map(snap.val(), function (value, index) {
+            return [index];
+        });
+        initMarkerStatesColor();
+
+    });
+    //list of categories
+    categoriesRef.once("value", function (snap) {
+        categories = $.map(snap.val(), function (value, index) {
+            return [index];
+        });
+        initMarkerCategoryColor();
+
+    });
+
+    function getSortedApp(name) {
+        applicationsRef.child(name).once("value", function (snapshot) {
+
+            console.log("application");
+
+            snapshot.forEach(function (data) {
+                appState[data.val().state]++;
+                $.each(data.val().categories, function (i, n) {
+                    appCat[i]++;
                 });
-
-                applicationsRef.child("dadakoko").on("child_added", function (snapshot) {
-                    console.log("david applications : " + snapshot.val().company + " " + snapshot.val().position);
+                var queryRef = companiesRef.child(data.val().company);
+                queryRef.on("value", function (querySnapshot) {
+                    geocodeAddress(querySnapshot.val().address, querySnapshot.val().name, data.val().state);
                 });
+            });
 
-                //list of all applications (company name and address) for a user
-                applicationsRef.child("dadakoko").on("value", function (snapshot) {
-                    snapshot.forEach(function (data) {
-                        var queryRef = companiesRef.child(data.val().company);
-                        queryRef.on("value", function (querySnapshot) {
-                            console.log("david applications pour company : " + querySnapshot.val().name + " a: " + querySnapshot.val().address);
-                        });
-                    });
-                });
+            drawChart(); 
 
-
-                /*
-                        //dadakoko add a new application
-                        //first add the company that is not stored yet
-                        var cern = {
-                            cern: {
-                                name: "CERN",
-                                address: "meyrin"
-                            }
-                        };
-                        companiesRef.update(cern);
-                        //second: add dadakoko as a candidate
-                        companiesRef.child("cern").child("candidates").update({
-                            "dadakoko": true
-                        });
-                        //finally: add the application
-                        var application6 = {
-                            date: "31/12",
-                            state: "ongoing",
-                            company: "cern",
-                            position: "particule elementaire",
-                            categories: {
-                                cascade: true
-                            }
-                        };
-                        applicationsRef.child("dadakoko").push().set(application6);
-                */
+        });
+    }
