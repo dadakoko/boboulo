@@ -7,26 +7,36 @@
         var geo;
         var geocoder;
 
+        var pinShadow;
+        var colorStateMap = new Map();
+
+
         function initMap() {
             map = new google.maps.Map(document.getElementById('map'), {
                 center: myLatlng,
-                zoom: 4
+                zoom: 1
             });
 
-            var marker = new google.maps.Marker({
-                position: myLatlng,
-                map: map,
-                title: 'Click to zoom'
-            });
-
-            marker.addListener('click', function () {
-                map.setZoom(8);
-                map.setCenter(marker.getPosition());
-            });
 
             geocoder = new google.maps.Geocoder();
 
         }
+
+        function initColor() {
+            $.each(states, function (index, val) {
+                var mImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + allcolors[index].substring(1),
+                    new google.maps.Size(21, 34),
+                    new google.maps.Point(0, 0),
+                    new google.maps.Point(10, 34));
+                colorStateMap.set(val, mImage);
+            });
+
+            pinShadow = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_shadow",
+                new google.maps.Size(40, 37),
+                new google.maps.Point(0, 0),
+                new google.maps.Point(12, 35));
+        }
+
 
         // Sets the map on all markers in the array.
         function setMapOnAll(map) {
@@ -50,40 +60,31 @@
         }
 
 
-        function geocodeAddress(address, companyName) {
+        function geocodeAddress(address, companyName, appState) {
             geocoder.geocode({
                 'address': address
             }, function (results, status) {
                 if (status === google.maps.GeocoderStatus.OK) {
-                    //map.setCenter(results[0].geometry.location);
-                    //map.setZoom(12);
+
+                    var ico = colorStateMap.get(appState);
+
                     var marker = new google.maps.Marker({
                         map: map,
                         position: results[0].geometry.location,
-                        title: companyName
+                        title: companyName,
+                        icon: ico,
+                        shadow: pinShadow
+                    });
+                    var infowindow = new google.maps.InfoWindow({
+                        content: companyName
                     });
                     markers.push(marker);
+                    marker.addListener('click', function () {
+                        infowindow.open(map, marker);
+                    });
                     viewAllMarkers();
                 } else {
                     alert('Geocode was not successful for the following reason: ' + status);
                 }
-            });
-        }
-
-        document.getElementById("btn").addEventListener("click", function () {
-            geocodeAddress("marinduque philippines", "bla");
-        });
-
-        var x = -25;
-        var y = 133;
-
-        function addMarker() {
-            var marker = new google.maps.Marker({
-                position: {
-                    lat: x++,
-                    lng: y++
-                },
-                map: map,
-                title: 'Click to zoom'
             });
         }
