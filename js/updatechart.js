@@ -28,8 +28,8 @@
 
     }
 
-    function drawChart(pieId, appPerCat,color) {
-        var data = google.visualization.arrayToDataTable(appPerCat);
+    function drawChart(pieId, appPer,color) {
+        var data = google.visualization.arrayToDataTable(appPer);
 
         var options = {
             is3D: true,
