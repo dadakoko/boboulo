@@ -36,6 +36,7 @@
             categories = $.map(snap.val(), function (value, index) {
                 return [index];
             });
+            addCatApplicationForm();
             initMarkerColor();
         });
 
