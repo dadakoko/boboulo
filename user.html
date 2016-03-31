@@ -13,7 +13,6 @@
 
     <script src="js/init.js"></script>
     <script src="js/static.js"></script>
-    <script src="js/fireStorage.js"></script>
 
 
 
@@ -133,12 +132,27 @@
                 <h3 align=center>E-cockpit</h3>
             </div>
             <div class="col-xs-12 col-sm-9 col-sm-pull-3">
-                <h2>Applications state</h2>
-                <div id="piechartState" style="width: 900px; height: 500px;"></div>
-                <div id="piechartCategory" style="width: 900px; height: 500px;"></div>
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active">
+                        <a href="#perstate" aria-controls="home" role="tab" data-toggle="tab">
+                            applications per states
+                        </a></li>
+                    <li role=presentation>
+                        <a href="#percat" aria-controls="profile" role="tab" data-toggle="tab">
+                            application per categories
+                        </a></li>
+                </ul>
+
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane fade in active" id="perstate">
+                        <div id="piechartState" style="width: 900px; height: 500px;"></div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="percat">
+                        <div id="piechartCategory" style="width: 900px; height: 500px;"></div>
+                    </div>
+                </div>
                 <input id="pieInput" type="text">
                 <button id="pieBtn">OK</button>
-                <p><a href="#">More &raquo;</a></p>
             </div>
         </div>
 
@@ -214,6 +228,7 @@
     </footer>
 
 
+    <script src="js/fireStorage.js"></script>
     <script src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="js/updatechart.js"></script>
     <script src="js/mainController.js"></script>
