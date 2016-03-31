@@ -10,6 +10,7 @@
     var states;
     var categories;
 
+
     //list of companies
     companiesRef.once("value", function (snap) {
         companies = $.map(snap.val(), function (value, index) {
