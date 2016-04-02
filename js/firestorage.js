@@ -10,7 +10,7 @@
     var states;
     var categories;
 
-   $("#pieBtn").click(updatePie);
+    $("#pieBtn").click(updatePie);
 
     //list of companies
     companiesRef.once("value", function (snap) {
@@ -40,10 +40,12 @@
             initMarkerColor();
         });
 
-        
+
     });
 
     function updatePie() {
+
+        //initFire();
 
         $.each(categories, function (i, n) {
             appCat[n] = 0;
@@ -61,7 +63,11 @@
 
     function getSortedApp(name) {
         applicationsRef.child(name).once("value", function (snapshot) {
+            var appList = [];
             snapshot.forEach(function (data) {
+                var a = data.val();
+                var app = new application(a.categories, a.company, a.date, a.position, a.state);
+                appList.push(app);
                 appState[data.val().state]++;
                 $.each(data.val().categories, function (i, n) {
                     appCat[i]++;
@@ -72,7 +78,17 @@
                 });
             });
 
+            addApplicationList(appList);
             drawCharts();
 
         });
+    }
+
+
+    function application(cat, cn, da, po, st) {
+        this.categories = cat;
+        this.company = cn;
+        this.date = da;
+        this.position = po;
+        this.state = st;
     }
