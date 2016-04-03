@@ -6,6 +6,8 @@
     var appCat = [];
     var appState = [];
 
+ 
+
     function drawCharts() {
 
         var appPerCategories = [];
@@ -18,17 +20,18 @@
             appPerCategories.push(tmp);
         }
 
-        for (var i in appState) {
-            var tmp = [i, appState[i]];
+        for (var item in appState) {
+            var tmp = [item, appState[item]];
             appPerState.push(tmp);
         }
 
-        drawChart('piechartCategory', appPerCategories,allcolors.slice(states.length, states.length + categories.length));
-        drawChart('piechartState', appPerState,allcolors.slice(0, states.length));
+        
+        drawChart('piechartCategory', appPerCategories, allcolors.slice(states.length, states.length + categories.length));
+        drawChart('piechartState', appPerState, allcolors.slice(0, states.length));
 
     }
 
-    function drawChart(pieId, appPer,color) {
+    function drawChart(pieId, appPer, color) {
         var data = google.visualization.arrayToDataTable(appPer);
 
         var options = {

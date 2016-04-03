@@ -7,9 +7,9 @@ function addApplicationList(appList) {
     $.each(appList, function (i, val) {
         console.log(val);
 
-        var cn = val.company.name.replace(" ", "")
+        var cn = val.company.name.replace(" ", "");
 
-        var html = "<tr><td>" + val.company.name + "<small> " + val.state + "  </small></td><td><button data-id='" + i + "' class='delete btn-xs'> Delete </button>" + "</td></tr>";
+        var html = "<tr><td>" + val.company.name + "<small style='color:"+colorStateMap.get(val.state)+"'> " + val.state + "  </small></td><td><button data-id='" + i + "' class='delete btn-xs'> Delete </button>" + "</td></tr>";
         var $tr = $($.parseHTML(html));
         $tr.wrap('<a href="#' + cn + '" role="button" data-toggle="collapse" data-parent="#accordion" aria-expanded="true" aria-controls="' + cn + '"></a>');
         var $a = $tr.parent();

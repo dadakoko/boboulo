@@ -10,6 +10,8 @@
     var states;
     var categories;
 
+    var colorStateMap = new Map();
+
     var currentUser;
 
     $("#pieBtn").click(updatePie);
@@ -33,6 +35,10 @@
         states = $.map(snap.val(), function (value, index) {
             return [index];
         });
+        $.each(states, function (i, n) {
+            colorStateMap.set(n, allcolors[i]);
+        });
+
         //list of categories
         categoriesRef.once("value", function (snap) {
             categories = $.map(snap.val(), function (value, index) {
@@ -58,7 +64,7 @@
         });
 
         clearMarkers();
-        
+
         currentUser = $("#pieInput").val();
 
         getSortedApp($("#pieInput").val());

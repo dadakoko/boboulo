@@ -4,7 +4,7 @@
         var geocoder;
 
         var pinShadow;
-        var colorStateMap = new Map();
+        var mcolorStateMap = new Map();
 
 
         function initMap() {
@@ -25,7 +25,7 @@
                     new google.maps.Size(21, 34),
                     new google.maps.Point(0, 0),
                     new google.maps.Point(10, 34));
-                colorStateMap.set(val, mImage);
+                mcolorStateMap.set(val, mImage);
             });
 
             pinShadow = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_shadow",
@@ -41,7 +41,7 @@
                     new google.maps.Size(21, 34),
                     new google.maps.Point(0, 0),
                     new google.maps.Point(10, 34));
-                colorStateMap.set(val, mImage);
+                mcolorStateMap.set(val, mImage);
             });
 
 
@@ -50,7 +50,7 @@
                     new google.maps.Size(21, 34),
                     new google.maps.Point(0, 0),
                     new google.maps.Point(10, 34));
-                colorStateMap.set(val, mImage);
+                mcolorStateMap.set(val, mImage);
             });
 
             pinShadow = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_shadow",
@@ -89,7 +89,7 @@
             }, function (results, status) {
                 if (status === google.maps.GeocoderStatus.OK) {
 
-                    var ico = colorStateMap.get(appState);
+                    var ico = mcolorStateMap.get(appState);
 
                     var marker = new google.maps.Marker({
                         map: map,
