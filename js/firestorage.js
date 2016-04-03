@@ -17,7 +17,7 @@
     $("#pieBtn").click(updatePie);
 
     //list of companies
-    companiesRef.once("value", function (snap) {
+    companiesRef.on("value", function (snap) {
         companies = $.map(snap.val(), function (value, index) {
             return [index];
         });
@@ -76,8 +76,6 @@
             var appList = [];
             snapshot.forEach(function (data) {
                 var a = data.val();
-                //var app = new application(a.categories, a.company, a.date, a.position, a.state);
-                //appList.push(app);
                 appState[data.val().state]++;
                 $.each(data.val().categories, function (i, n) {
                     appCat[i]++;
