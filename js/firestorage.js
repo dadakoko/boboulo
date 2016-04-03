@@ -10,6 +10,8 @@
     var states;
     var categories;
 
+    var currentUser;
+
     $("#pieBtn").click(updatePie);
 
     //list of companies
@@ -56,6 +58,8 @@
         });
 
         clearMarkers();
+        
+        currentUser = $("#pieInput").val();
 
         getSortedApp($("#pieInput").val());
 
@@ -66,29 +70,44 @@
             var appList = [];
             snapshot.forEach(function (data) {
                 var a = data.val();
-                var app = new application(a.categories, a.company, a.date, a.position, a.state);
-                appList.push(app);
+                //var app = new application(a.categories, a.company, a.date, a.position, a.state);
+                //appList.push(app);
                 appState[data.val().state]++;
                 $.each(data.val().categories, function (i, n) {
                     appCat[i]++;
                 });
                 var queryRef = companiesRef.child(data.val().company);
                 queryRef.on("value", function (querySnapshot) {
-                    geocodeAddress(querySnapshot.val().address, querySnapshot.val().name, data.val().state);
+                    var q = querySnapshot.val();
+                    geocodeAddress(q.address, q.name, a.state);
+                    var comp = new company(q.address, q.name, q.candidates);
+                    var app = new application(a.categories, comp, a.date, a.position, a.state);
+                    appList.push(app);
+                    addApplicationList(appList);
                 });
             });
 
-            addApplicationList(appList);
             drawCharts();
 
         });
     }
 
-
-    function application(cat, cn, da, po, st) {
+    //Entities
+    function application(cat, c, da, po, st) {
         this.categories = cat;
-        this.company = cn;
+        this.company = c;
         this.date = da;
         this.position = po;
         this.state = st;
+    }
+
+    function company(add, na, can) {
+        this.address = add;
+        this.name = na;
+        this.candidates = can;
+    }
+
+    function user(fr, us) {
+        this.friends = fr;
+        this.username = us;
     }
