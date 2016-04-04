@@ -7,6 +7,7 @@
            var emailid = $("#emailid").val();
            var categories = $("#categoryid").val();
            var letter = $("#letter").val();
+           var date = now();
 
 
            //first add the company that is not stored yet
@@ -14,9 +15,7 @@
                return comp === compname;
            }
 
-           compname = companies.find(findCompany);
-
-           if (compname === undefined) {
+           if (companies.find(findCompany) === undefined) {
 
                var text = '{ "' + compname + '" : ' +
                    '{ "name":"' + compname.toUpperCase() + '" , "address":"' + address + '" } }';
@@ -41,7 +40,7 @@
            cat = cat.slice(0, -1);
            cat += ' }';
 
-           var atext = '{ "date":"' + compname + '", "state":"ongoing", ' +
+           var atext = '{ "date":"' + date + '", "state":"ongoing", ' +
                ' "company":"' + compname + '" , "position":"' + letter + '" ,' + cat;
            atext += '}';
 
@@ -51,6 +50,24 @@
 
 
        });
+
+       function now() {
+           var today = new Date();
+           var dd = today.getDate();
+           var mm = today.getMonth() + 1; //January is 0!
+           var yyyy = today.getFullYear();
+
+           if (dd < 10) {
+               dd = '0' + dd
+           }
+
+           if (mm < 10) {
+               mm = '0' + mm
+           }
+
+           today = mm + '/' + dd + '/' + yyyy;
+           return today;
+       }
 
        function addApplicationList(appList) {
 
@@ -63,7 +80,7 @@
 
                var cn = val.company.name.replace(" ", "");
 
-               var html = "<tr><td>" + val.company.name + "<small style='color:" + colorStateMap.get(val.state) + "'> " + val.state + "  </small></td><td><button data-id='" + i + "' class='delete btn-xs'> Delete </button>" + "</td></tr>";
+               var html = "<tr><td>" + val.company.name + "<small style='color:" + colorStateMap.get(val.state) + "'> " + val.state + "  </small></td><td><a data-id='" + val.company.name + i + "' class='delete glyphicon glyphicon-trash btn-xs'></a>" + "</td></tr>";
                var $tr = $($.parseHTML(html));
                $tr.wrap('<a href="#' + cn + '" role="button" data-toggle="collapse" data-parent="#accordion" aria-expanded="true" aria-controls="' + cn + '"></a>');
                var $a = $tr.parent();
