@@ -46,8 +46,8 @@
             addCatApplicationForm();
             initMarkerColor();
             currentUser = window.localStorage.getItem("login");
-            if (!(currentUser === "" || currentUser === undefined || currentUser === null )) {
-            updatePie();
+            if (!(currentUser === "" || currentUser === undefined || currentUser === null)) {
+                updatePie();
             }
         });
 
@@ -68,10 +68,6 @@
 
         clearMarkers();
 
-        //currentUser = $("#pieInput").val();
-
-        //currentUser = "luis";
-
         applicationsRef.child(currentUser).on("value", function (snap) {
             $.map(snap.val(), function (value, index) {
                 apprefMap.set(value.company, index);
@@ -81,6 +77,68 @@
 
         getSortedApp(currentUser);
 
+    }
+
+    function updatePieWithPeriod(from, to) {
+
+        if (from === undefined) {
+            return;
+        }
+        if (to === undefined) {
+            return;
+        }
+
+        $.each(categories, function (i, n) {
+            appCat[n] = 0;
+        });
+
+        $.each(states, function (i, n) {
+            appState[n] = 0;
+        });
+
+        clearMarkers();
+        apprefMap.clear();
+
+        applicationsRef.child(currentUser)
+            .on("value", function (snap) {
+                $.map(snap.val(), function (value, index) {
+                    apprefMap.set(value.company, index);
+                });
+            });
+
+
+        getSortedAppWithPeriod(currentUser, from, to);
+
+    }
+
+    function getSortedAppWithPeriod(name, from, to) {
+
+        applicationsRef.child(name)
+            .once("value", function (snapshot) {
+                appList = [];
+                snapshot.forEach(function (data) {
+                    var a = data.val();
+                    console.log(a.date + " " + from + " " + to);
+                    if (a.date < to && a.date > from) {
+                        appState[data.val().state]++;
+                        $.each(data.val().categories, function (i, n) {
+                            appCat[i]++;
+                        });
+                        var queryRef = companiesRef.child(data.val().company);
+                        queryRef.on("value", function (querySnapshot) {
+                            var q = querySnapshot.val();
+                            geocodeAddress(q.address, q.name, a.state);
+                            var comp = new company(q.address, q.name, q.candidates);
+                            var app = new application(a.categories, comp, a.date, a.position, a.state);
+                            appList.push(app);
+                            addApplicationList(appList);
+                        });
+                    }
+                });
+
+                drawCharts();
+
+            });
     }
 
     function getSortedApp(name) {

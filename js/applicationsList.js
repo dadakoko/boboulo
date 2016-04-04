@@ -7,8 +7,7 @@ $("#sendapplicationsubmit").click(function () {
     var emailid = $("#emailid").val();
     var categories = $("#categoryid").val();
     var letter = $("#letter").val();
-    var date = now();
-
+    var date = new Date().getTime();
 
     //first add the company that is not stored yet
     function findCompany(comp) {
@@ -96,7 +95,7 @@ function addApplicationList(appList) {
         $h3.wrap('<div id="heading"' + cn + '" class="panel-heading" role="tab"></div>');
         var $head = $h3.parent();
 
-        var htmlb = "<p> apply for a position of " + val.position + " on the : " + val.date + "</p>";
+        var htmlb = "<p> apply for a position of " + val.position + " on the : " + new Date(parseInt(val.date)) + "</p>";
         htmlb += "<p> address : " + val.company.address + "</p>";
         var keys = Object.keys(val.company.candidates);
         if (keys.length > 1) {
