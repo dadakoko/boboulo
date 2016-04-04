@@ -45,6 +45,10 @@
             });
             addCatApplicationForm();
             initMarkerColor();
+            currentUser = window.localStorage.getItem("login");
+            if (!(currentUser === "" || currentUser === undefined || currentUser === null )) {
+            updatePie();
+            }
         });
 
 
@@ -67,7 +71,7 @@
         //currentUser = $("#pieInput").val();
 
         //currentUser = "luis";
-        
+
         applicationsRef.child(currentUser).on("value", function (snap) {
             $.map(snap.val(), function (value, index) {
                 apprefMap.set(value.company, index);

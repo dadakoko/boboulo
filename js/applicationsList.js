@@ -1,3 +1,10 @@
+$(function () {
+    //if (currentUser === "" || currentUser===undefined) {
+    //    return;
+    //}
+});
+
+
 $("#sendapplicationsubmit").click(function () {
     var compname = $("#compname").val();
     var address = $("#address").val();
@@ -133,7 +140,7 @@ $table.on("click", "a.delete", function () {
     //deleteEntry(index);
     console.log("delete " + appList[index].company.name);
     applicationsRef.child(currentUser).child(apprefMap.get(appList[index].company.name.toLowerCase())).remove();
-    $("#pieBtn").trigger("click");
+    updatePie();
 })
 
 $table.on("click", "small.state", function () {
