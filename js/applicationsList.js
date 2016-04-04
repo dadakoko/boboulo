@@ -1,10 +1,3 @@
-$(function () {
-    //if (currentUser === "" || currentUser===undefined) {
-    //    return;
-    //}
-});
-
-
 $("#sendapplicationsubmit").click(function () {
     var compname = $("#compname").val();
     var address = $("#address").val();

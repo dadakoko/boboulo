@@ -6,6 +6,7 @@ $("#loginmodalsubmit").click(function () {
     $('#loginModal').modal('toggle');
     currentUser = $("#loginEmail").val();
     window.localStorage.setItem("login", currentUser);
+    displayLogin();
     $('#loginform').trigger("reset");
     updatePie();
 });
