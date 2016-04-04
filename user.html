@@ -11,9 +11,33 @@
     <script src="js/bootstrap.min.js"></script>
     <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
 
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+
     <script src="js/init.js"></script>
 
-
+    <script>
+        $(function () {
+            $("#from").datepicker({
+                defaultDate: "+1w",
+                changeMonth: true,
+                numberOfMonths: 3,
+                onClose: function (selectedDate) {
+                    $("#to").datepicker("option", "minDate", selectedDate);
+                }
+            });
+            $("#to").datepicker({
+                defaultDate: "+1w",
+                changeMonth: true,
+                numberOfMonths: 3,
+                onClose: function (selectedDate) {
+                    $("#from").datepicker("option", "maxDate", selectedDate);
+                }
+            });
+        });
+    </script>
 
     <style>
         html,
@@ -68,7 +92,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li>
                         <a id="loginnavbar" data-toggle="modal" data-target="#loginModal">
-                            <span  class="glyphicon glyphicon-log-in"></span> Login
+                            <span class="glyphicon glyphicon-log-in"></span> Login
                         </a>
                     </li>
                 </ul>
@@ -200,6 +224,49 @@
 
 
     <div class="container">
+
+        <div class="row row-content">
+            <div class="col-xs-12 col-sm-3">
+                <p style="padding:20px;"></p>
+                <h3 align=center>Filters</h3>
+            </div>
+            <div class="col-xs-12 col-sm-9">
+                <form class="form-horizontal" role="form" style="height:200px">
+                    <div class="form-group">
+                        <label for="appof" class="col-sm-2 control-label">Applications of</label>
+                        <div class="col-sm-10">
+                            <label class="radio-inline">
+                                <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> Me
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> My Friends
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="fromto" class="col-sm-2 control-label">Period
+                        </label>
+                        <div class="col-sm-5 has-feedback">
+                            <input type="text" class="form-control" id="from" name="from" placeholder="From" aria-describedby="fromDateStatus">
+                            <span class="glyphicon glyphicon-calendar form-control-feedback" aria-hidden="true"></span>
+                            <span id="fromDateStatus" class="sr-only"></span>
+                        </div>
+                        <div class="col-sm-5 has-feedback">
+                            <input type="text" class="form-control" id="to" name="to" placeholder="To" aria-describedby="toDateStatus">
+                            <span class="glyphicon glyphicon-calendar form-control-feedback" aria-hidden="true"></span>
+                            <span id="toDateStatus" class="sr-only"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <div id="filterid" class="btn btn-primary">
+                                Go!
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
 
         <div class="row row-content">
             <div class="col-xs-12 col-sm-3 col-sm-push-9">
