@@ -79,13 +79,15 @@
            $.each(appList, function (i, val) {
                var cn = val.company.name.replace(" ", "");
 
-               var html = "<tr><td>" + val.company.name + "<small style='color:" + colorStateMap.get(val.state) + "'> " + val.state + "  </small></td></tr>";
+               var html = "<tr><td>" + val.company.name +"</td></tr>";
                var $tr = $($.parseHTML(html));
                $tr.wrap('<a href="#' + cn + '" role="button" data-toggle="collapse" data-parent="#accordion" aria-expanded="true" aria-controls="' + cn + '"></a>');
                var $a = $tr.parent();
+               var $stateBtn = $($.parseHTML("<small data-id='" + val.company.name + i + "' class='state' style='color:" + colorStateMap.get(val.state) + "'> " + val.state + "  </small>"));
                var $trash = $($.parseHTML("<a data-id='" + val.company.name + i + "' class='delete glyphicon glyphicon-trash btn-xs'></a>"));
                $a.wrap('<h3 class="panel-title"></h3>');
                var $h3 = $a.parent();
+               $stateBtn.appendTo($h3);
                $trash.appendTo($h3);
                $h3.wrap('<div id="heading"' + cn + '" class="panel-heading" role="tab"></div>');
                var $head = $h3.parent();
@@ -125,5 +127,11 @@
        $table.on("click", "a.delete", function () {
            var index = $(this).attr("data-id");
            //deleteEntry(index);
-           console.log(index);
+           console.log("delete "+index);
+       })
+
+       $table.on("click", "small.state", function () {
+           var index = $(this).attr("data-id");
+           //deleteEntry(index);
+           console.log("state "+index);
        })
