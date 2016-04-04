@@ -68,9 +68,9 @@
                     <h4 class="modal-title">Login</h4>
                 </div>
                 <div class="modal-body">
-                    <form class="form-inline" role="search">
+                    <form id="loginform" class="form-inline" role="search">
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Email">
+                            <input id="loginEmail" type="text" class="form-control" placeholder="Email">
                         </div>
                         <div class="form-group">
                             <input type="text" class="form-control" placeholder="Password">
@@ -80,7 +80,7 @@
                                 <input type="checkbox"> Remember me
                             </label>
                         </div>
-                        <button type="submit" class="btn btn-info btn-sm">Sign in</button>
+                        <div id="loginmodalsubmit" class="btn btn-info btn-sm">Sign in</div>
                         <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Cancel</button>
                     </form>
                 </div>

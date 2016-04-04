@@ -13,10 +13,7 @@
     var colorStateMap = new Map();
     var apprefMap = new Map();
 
-    var currentUser;
     var appList = [];
-
-    $("#pieBtn").click(updatePie);
 
     //list of companies
     companiesRef.on("value", function (snap) {
@@ -67,8 +64,10 @@
 
         clearMarkers();
 
-        currentUser = $("#pieInput").val();
+        //currentUser = $("#pieInput").val();
 
+        //currentUser = "luis";
+        
         applicationsRef.child(currentUser).on("value", function (snap) {
             $.map(snap.val(), function (value, index) {
                 apprefMap.set(value.company, index);
@@ -76,7 +75,7 @@
         });
 
 
-        getSortedApp($("#pieInput").val());
+        getSortedApp(currentUser);
 
     }
 

@@ -1,4 +1,4 @@
-$("#sendapplication").submit(function (event) {
+$("#sendapplicationsubmit").click(function () {
     var compname = $("#compname").val();
     var address = $("#address").val();
     var contactname = $("#contactname").val();
@@ -49,9 +49,11 @@ $("#sendapplication").submit(function (event) {
     var ref = applicationsRef.child(currentUser).push();
     ref.set(application);
 
-    //apprefMap.set(compname,ref.name());
-
+    $('#applicationModal').modal('toggle');
+    $('#sendapplication').trigger("reset");
+    updatePie();
 });
+
 
 function now() {
     var today = new Date();
@@ -131,6 +133,7 @@ $table.on("click", "a.delete", function () {
     //deleteEntry(index);
     console.log("delete " + appList[index].company.name);
     applicationsRef.child(currentUser).child(apprefMap.get(appList[index].company.name.toLowerCase())).remove();
+    $("#pieBtn").trigger("click");
 })
 
 $table.on("click", "small.state", function () {
