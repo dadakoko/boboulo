@@ -69,23 +69,24 @@
            return today;
        }
 
+       var $table = $("#applList");
+
        function addApplicationList(appList) {
 
-           var $table = $("#applList");
            $("#applList > *").remove();
            var $panelDefault;
 
            $.each(appList, function (i, val) {
-               console.log(val);
-
                var cn = val.company.name.replace(" ", "");
 
-               var html = "<tr><td>" + val.company.name + "<small style='color:" + colorStateMap.get(val.state) + "'> " + val.state + "  </small></td><td><a data-id='" + val.company.name + i + "' class='delete glyphicon glyphicon-trash btn-xs'></a>" + "</td></tr>";
+               var html = "<tr><td>" + val.company.name + "<small style='color:" + colorStateMap.get(val.state) + "'> " + val.state + "  </small></td></tr>";
                var $tr = $($.parseHTML(html));
                $tr.wrap('<a href="#' + cn + '" role="button" data-toggle="collapse" data-parent="#accordion" aria-expanded="true" aria-controls="' + cn + '"></a>');
                var $a = $tr.parent();
+               var $trash = $($.parseHTML("<a data-id='" + val.company.name + i + "' class='delete glyphicon glyphicon-trash btn-xs'></a>"));
                $a.wrap('<h3 class="panel-title"></h3>');
                var $h3 = $a.parent();
+               $trash.appendTo($h3);
                $h3.wrap('<div id="heading"' + cn + '" class="panel-heading" role="tab"></div>');
                var $head = $h3.parent();
 
@@ -120,3 +121,9 @@
            $acc.before('<h2>Applications List</h2>');
 
        }
+
+       $table.on("click", "a.delete", function () {
+           var index = $(this).attr("data-id");
+           //deleteEntry(index);
+           console.log(index);
+       })
