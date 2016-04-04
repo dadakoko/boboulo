@@ -11,8 +11,10 @@
     var categories;
 
     var colorStateMap = new Map();
+    var apprefMap = new Map();
 
     var currentUser;
+    var appList = [];
 
     $("#pieBtn").click(updatePie);
 
@@ -67,13 +69,21 @@
 
         currentUser = $("#pieInput").val();
 
+        applicationsRef.child(currentUser).on("value", function (snap) {
+            $.map(snap.val(), function (value, index) {
+                apprefMap.set(value.company, index);
+            });
+        });
+
+
         getSortedApp($("#pieInput").val());
 
     }
 
     function getSortedApp(name) {
         applicationsRef.child(name).once("value", function (snapshot) {
-            var appList = [];
+            appList = [];
+            //apprefMap.clear();
             snapshot.forEach(function (data) {
                 var a = data.val();
                 appState[data.val().state]++;
