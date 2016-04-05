@@ -17,7 +17,7 @@ $("#sendapplicationsubmit").click(function () {
     if (companies.find(findCompany) === undefined) {
 
         var text = '{ "' + compname + '" : ' +
-            '{ "name":"' + compname.toUpperCase() + '" , "address":"' + address + '" } }';
+            '{ "name":"' + compname.toUpperCase() + '" , "fullname":"' + compname.toUpperCase() + '" , "address":"' + address + '" } }';
 
         var company = JSON.parse(text);
 
@@ -42,7 +42,7 @@ $("#sendapplicationsubmit").click(function () {
     var atext = '{ "date":"' + date + '", "state":"ongoing", ' +
         ' "company":"' + compname + '" , "position":"' + letter + '" ,' + cat;
     atext += '}';
-    
+
     var application = JSON.parse(atext);
 
     var ref = applicationsRef.child(currentUser).push();
@@ -137,30 +137,20 @@ var selectedAppRef;
 
 $table.on("click", "small.state", function () {
     var index = $(this).attr("data-id");
+    var option = $(this).html().trim();
     selectedAppRef = apprefMap.get(appList[index].company.name.toLowerCase());
+    $radio = $('#stateform input:radio[value="'+option+'"]');
+    $radio.prop("checked", true);
     $('#stateModal').modal('toggle');
 })
 
 $("#statemodalsubmit").click(function () {
     $radio = $('#stateform input[type="radio"]:checked');
     var option = $radio.attr("value");
-    applicationsRef.child(currentUser).child(selectedAppRef).update({state:option});
+    applicationsRef.child(currentUser).child(selectedAppRef).update({
+        state: option
+    });
     $('#stateModal').modal('toggle');
+    updatePie();
+
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

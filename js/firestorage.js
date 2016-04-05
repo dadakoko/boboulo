@@ -70,7 +70,7 @@
 
         applicationsRef.child(currentUser).on("value", function (snap) {
             $.map(snap.val(), function (value, index) {
-                apprefMap.set(value.company, index);
+                apprefMap.set(value.company.toLowerCase(), index);
             });
         });
 
@@ -102,7 +102,7 @@
         applicationsRef.child(currentUser)
             .on("value", function (snap) {
                 $.map(snap.val(), function (value, index) {
-                    apprefMap.set(value.company, index);
+                    apprefMap.set(value.company.toLowerCase(), index);
                 });
             });
 
@@ -128,7 +128,7 @@
                         queryRef.on("value", function (querySnapshot) {
                             var q = querySnapshot.val();
                             geocodeAddress(q.address, q.name, a.state);
-                            var comp = new company(q.address, q.name, q.candidates);
+                            var comp = new company(q.address, q.name,q.fullname, q.candidates);
                             var app = new application(a.categories, comp, a.date, a.position, a.state);
                             appList.push(app);
                             addApplicationList(appList);
