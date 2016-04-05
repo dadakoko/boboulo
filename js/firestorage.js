@@ -155,7 +155,7 @@
                 queryRef.on("value", function (querySnapshot) {
                     var q = querySnapshot.val();
                     geocodeAddress(q.address, q.name, a.state);
-                    var comp = new company(q.address, q.name, q.candidates);
+                    var comp = new company(q.address, q.name, q.fullname, q.candidates);
                     var app = new application(a.categories, comp, a.date, a.position, a.state);
                     appList.push(app);
                     addApplicationList(appList);
@@ -176,9 +176,10 @@
         this.state = st;
     }
 
-    function company(add, na, can) {
+    function company(add, na, fn, can) {
         this.address = add;
         this.name = na;
+        this.fullname = fn;
         this.candidates = can;
     }
 

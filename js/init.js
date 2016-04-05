@@ -92,14 +92,16 @@
 
            var companies = {
                sacpi: {
-                   name: "sacpi SA",
+                   fullname: "sacpi SA",
+                   name: "sacpi",
                    address: "prilly",
                    candidates: {
                        alfred: true
                    }
                },
                pectit: {
-                   name: "pectit bank",
+                   fullname: "pectit bank",
+                   name: "pectit",
                    address: "petit lancy",
                    candidates: {
                        david: true,
@@ -107,7 +109,8 @@
                    }
                },
                nomades: {
-                   name: "nomades ateliers",
+                   fullname: "nomades ateliers",
+                   name: "nomades",
                    address: "rue des acacias geneve",
                    candidates: {
                        david: true,
@@ -115,7 +118,8 @@
                    }
                },
                victoria: {
-                   name: "victoria hall",
+                   fullname: "victoria hall",
+                   name: "victoria",
                    address: "plainpalais geneve",
                    candidates: {}
                }

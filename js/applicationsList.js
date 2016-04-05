@@ -42,7 +42,7 @@ $("#sendapplicationsubmit").click(function () {
     var atext = '{ "date":"' + date + '", "state":"ongoing", ' +
         ' "company":"' + compname + '" , "position":"' + letter + '" ,' + cat;
     atext += '}';
-
+    
     var application = JSON.parse(atext);
 
     var ref = applicationsRef.child(currentUser).push();
@@ -80,9 +80,9 @@ function addApplicationList(appList) {
     var $panelDefault;
 
     $.each(appList, function (i, val) {
-        var cn = val.company.name.replace(" ", "");
+        var cn = val.company.fullname.replace(" ", "");
 
-        var html = "<tr><td>" + val.company.name + "</td></tr>";
+        var html = "<tr><td>" + val.company.fullname + "</td></tr>";
         var $tr = $($.parseHTML(html));
         $tr.wrap('<a href="#' + cn + '" role="button" data-toggle="collapse" data-parent="#accordion" aria-expanded="true" aria-controls="' + cn + '"></a>');
         var $a = $tr.parent();
@@ -99,7 +99,7 @@ function addApplicationList(appList) {
         htmlb += "<p> address : " + val.company.address + "</p>";
         var keys = Object.keys(val.company.candidates);
         if (keys.length > 1) {
-            htmlb += "<p> other candidates that have apply to " + val.company.name + " are :</p>";
+            htmlb += "<p> other candidates that have apply to " + val.company.fullname + " are :</p>";
             $.each(keys, function (i, cand) {
                 if (cand != currentUser) {
                     htmlb += "<p>" + cand + "</p>";
@@ -133,19 +133,34 @@ $table.on("click", "a.delete", function () {
     updatePie();
 })
 
+var selectedAppRef;
+
 $table.on("click", "small.state", function () {
     var index = $(this).attr("data-id");
-    selectNewState(index);
-    console.log("state " + appList[index].company.name);
+    selectedAppRef = apprefMap.get(appList[index].company.name.toLowerCase());
+    $('#stateModal').modal('toggle');
 })
 
-function selectNewState(index){
-        $('#stateModal').modal('toggle');
-}
-
 $("#statemodalsubmit").click(function () {
-        $('#stateModal').modal('toggle');
+    $radio = $('#stateform input[type="radio"]:checked');
+    var option = $radio.attr("value");
+    applicationsRef.child(currentUser).child(selectedAppRef).update({state:option});
+    $('#stateModal').modal('toggle');
 });
-                                  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
