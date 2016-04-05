@@ -129,14 +129,23 @@ function addApplicationList(appList) {
 
 $table.on("click", "a.delete", function () {
     var index = $(this).attr("data-id");
-    //deleteEntry(index);
-    console.log("delete " + appList[index].company.name);
     applicationsRef.child(currentUser).child(apprefMap.get(appList[index].company.name.toLowerCase())).remove();
     updatePie();
 })
 
 $table.on("click", "small.state", function () {
     var index = $(this).attr("data-id");
-    //deleteEntry(index);
+    selectNewState(index);
     console.log("state " + appList[index].company.name);
 })
+
+function selectNewState(index){
+        $('#stateModal').modal('toggle');
+}
+
+$("#statemodalsubmit").click(function () {
+        $('#stateModal').modal('toggle');
+});
+                                  
+
+
