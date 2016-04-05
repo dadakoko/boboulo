@@ -1,23 +1,23 @@
        function initFire() {
            var users = {
                users: {
-                   dadakoko: {
-                       username: "California",
+                   david: {
+                       username: "davidk",
                        friends: {
-                           luis: true,
+                           alfred: true,
                            ella: true
                        }
                    },
-                   luis: {
-                       username: "luisb",
+                   alfred: {
+                       username: "alfredb",
                        friends: {
-                           dadakoko: true
+                           david: true
                        }
                    },
                    ella: {
                        username: "elafizt",
                        friends: {
-                           dadakoko: true
+                           david: true
                        }
                    }
                }
@@ -25,10 +25,10 @@
 
            myDataRef.set(users);
 
-           var luisRef = applicationsRef.child("luis");
+           var alfredRef = applicationsRef.child("alfred");
 
            var application1 = {
-               date: "10/07",
+               date: "1359807283356",
                state: "ongoing",
                company: "sacpi",
                position: "president director",
@@ -39,31 +39,31 @@
            };
 
            var application3 = {
-               date: "10/10",
+               date: "1357707283356",
                state: "rejected",
                company: "pectit",
                position: "trader",
                categories: {
-                   shark: true
+                   musique: true
                }
            };
 
-           luisRef.push().set(application3);
-           luisRef.push().set(application1);
+           alfredRef.push().set(application3);
+           alfredRef.push().set(application1);
 
-           var dadaRef = applicationsRef.child("dadakoko");
+           var dadaRef = applicationsRef.child("david");
            var application2 = {
-               date: "23/10",
+               date: "1389807283356",
                state: "ongoing",
                company: "pectit",
                position: "web developer",
                categories: {
-                   shark: true
+                   musique: true
                }
            };
 
            var application4 = {
-               date: "31/12",
+               date: "1399807283356",
                state: "accepted",
                company: "nomades",
                position: "prof",
@@ -78,7 +78,7 @@
 
            var ellaRef = applicationsRef.child("ella");
            var application5 = {
-               date: "31/12",
+               date: "1372807283356",
                state: "accepted",
                company: "nomades",
                position: "prof",
@@ -95,22 +95,22 @@
                    name: "sacpi SA",
                    address: "prilly",
                    candidates: {
-                       luis: true
+                       alfred: true
                    }
                },
                pectit: {
                    name: "pectit bank",
                    address: "petit lancy",
                    candidates: {
-                       dadakoko: true,
-                       luis: true
+                       david: true,
+                       alfred: true
                    }
                },
                nomades: {
                    name: "nomades ateliers",
                    address: "rue des acacias geneve",
                    candidates: {
-                       dadakoko: true,
+                       david: true,
                        ella: true
                    }
                },
@@ -125,11 +125,9 @@
 
            var categories = {
                informatique: true,
-               shark: true,
                prof: true,
-               cascade: true,
                management: true,
-               music: true
+               musique: true
            };
 
            categoriesRef.set(categories);
