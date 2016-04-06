@@ -21,15 +21,15 @@ $("#sendapplicationsubmit").click(function () {
 
         var company = JSON.parse(text);
 
-        companiesRef.update(company);
+        addCompany(company);
 
     }
 
-    //second: add dadakoko as a candidate
+    //second: add current user as a candidate
     var utxt = '{ "' + currentUser + '":true }';
     var user = JSON.parse(utxt);
 
-    companiesRef.child(compname).child("candidates").update(user);
+    addCandidate(compname,user);
 
     //finally: add the application
     var cat = ' "categories" : {';
@@ -45,32 +45,12 @@ $("#sendapplicationsubmit").click(function () {
 
     var application = JSON.parse(atext);
 
-    var ref = applicationsRef.child(currentUser).push();
-    ref.set(application);
+    addApplication(currentUser,application);
 
     $('#applicationModal').modal('toggle');
     $('#sendapplication').trigger("reset");
     updatePie();
 });
-
-
-function now() {
-    var today = new Date();
-    var dd = today.getDate();
-    var mm = today.getMonth() + 1; //January is 0!
-    var yyyy = today.getFullYear();
-
-    if (dd < 10) {
-        dd = '0' + dd
-    }
-
-    if (mm < 10) {
-        mm = '0' + mm
-    }
-
-    today = mm + '/' + dd + '/' + yyyy;
-    return today;
-}
 
 var $table = $("#applList");
 
@@ -139,7 +119,7 @@ function addStatesModal(){
 
 $table.on("click", "a.delete", function () {
     var index = $(this).attr("data-id");
-    applicationsRef.child(currentUser).child(apprefMap.get(appList[index].company.name.toLowerCase())).remove();
+    removeApp(currentUser, appList[index].company.name.toLowerCase());
     updatePie();
 })
 

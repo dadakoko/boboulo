@@ -119,7 +119,6 @@
                 appList = [];
                 snapshot.forEach(function (data) {
                     var a = data.val();
-                    console.log(a.date + " " + from + " " + to);
                     if (a.date < to && a.date > from) {
                         appState[data.val().state]++;
                         $.each(data.val().categories, function (i, n) {
@@ -129,7 +128,7 @@
                         queryRef.on("value", function (querySnapshot) {
                             var q = querySnapshot.val();
                             geocodeAddress(q.address, q.name, a.state);
-                            var comp = new company(q.address, q.name,q.fullname, q.candidates);
+                            var comp = new company(q.address, q.name, q.fullname, q.candidates);
                             var app = new application(a.categories, comp, a.date, a.position, a.state);
                             appList.push(app);
                             addApplicationList(appList);
@@ -167,6 +166,26 @@
 
         });
     }
+
+    function removeApp(currentUser, companyName) {
+        applicationsRef.child(currentUser).child(apprefMap.get(companyName)).remove();
+    }
+
+    function addCompany(company) {
+        companiesRef.update(company);
+    }
+
+    function addCandidate(compname, user) {
+        companiesRef.child(compname).child("candidates").update(user);
+    }
+
+    function addApplication(currentUser, application) {
+        var ref = applicationsRef.child(currentUser).push();
+        ref.set(application);
+    }
+
+
+
 
     //Entities
     function application(cat, c, da, po, st) {
