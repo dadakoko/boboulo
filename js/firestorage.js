@@ -34,6 +34,7 @@
         states = $.map(snap.val(), function (value, index) {
             return [index];
         });
+        addStatesModal();
         $.each(states, function (i, n) {
             colorStateMap.set(n, allcolors[i]);
         });

@@ -127,6 +127,16 @@ function addApplicationList(appList) {
 
 }
 
+function addStatesModal(){
+    $radiocontainer = $('#stateform').children('.form-group');
+    $.each(states, function (i, val) {
+        var index = i+1;
+        var html = '<label class="radio-inline"><input type="radio" name="inlineRadioOptions" id="inlineRadio'+index+'" value="'+val+'">'+val+'</label>';
+        var $radio = $($.parseHTML(html));
+        $radiocontainer.append($radio);
+    });
+}
+
 $table.on("click", "a.delete", function () {
     var index = $(this).attr("data-id");
     applicationsRef.child(currentUser).child(apprefMap.get(appList[index].company.name.toLowerCase())).remove();
@@ -154,3 +164,5 @@ $("#statemodalsubmit").click(function () {
     updatePie();
 
 });
+
+
