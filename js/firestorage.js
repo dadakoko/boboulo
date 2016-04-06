@@ -48,13 +48,14 @@
             initMarkerColor();
             currentUser = window.localStorage.getItem("login");
             if (!(currentUser === "" || currentUser === undefined || currentUser === null)) {
-                updatePie();
+                updatePieWithPeriod(0, Number.MAX_SAFE_INTEGER);
             }
         });
 
 
     });
 
+/*
     function updatePie() {
 
         //initFire();
@@ -79,6 +80,7 @@
         getSortedApp(currentUser);
 
     }
+*/
 
     function updatePieWithPeriod(from, to) {
 
@@ -141,6 +143,7 @@
             });
     }
 
+/*
     function getSortedApp(name) {
         applicationsRef.child(name).once("value", function (snapshot) {
             appList = [];
@@ -166,6 +169,7 @@
 
         });
     }
+*/
 
     function removeApp(currentUser, companyName) {
         applicationsRef.child(currentUser).child(apprefMap.get(companyName)).remove();
@@ -183,7 +187,3 @@
         var ref = applicationsRef.child(currentUser).push();
         ref.set(application);
     }
-
-
-
-

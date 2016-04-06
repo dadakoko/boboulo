@@ -20,5 +20,5 @@ $("#loginmodalsubmit").click(function () {
     window.localStorage.setItem("login", currentUser);
     displayLogin();
     $('#loginform').trigger("reset");
-    updatePie();
+    updatePieWithPeriod(0,Number.MAX_SAFE_INTEGER);
 });

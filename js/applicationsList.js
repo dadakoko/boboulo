@@ -49,7 +49,7 @@ $("#sendapplicationsubmit").click(function () {
 
     $('#applicationModal').modal('toggle');
     $('#sendapplication').trigger("reset");
-    updatePie();
+    updatePieWithPeriod(0,Number.MAX_SAFE_INTEGER);
 });
 
 var $table = $("#applList");
@@ -120,7 +120,7 @@ function addStatesModal(){
 $table.on("click", "a.delete", function () {
     var index = $(this).attr("data-id");
     removeApp(currentUser, appList[index].company.name.toLowerCase());
-    updatePie();
+    updatePieWithPeriod(0,Number.MAX_SAFE_INTEGER);
 })
 
 var selectedAppRef;
@@ -141,7 +141,7 @@ $("#statemodalsubmit").click(function () {
         state: option
     });
     $('#stateModal').modal('toggle');
-    updatePie();
+    updatePieWithPeriod(0,Number.MAX_SAFE_INTEGER);
 
 });
 
