@@ -187,23 +187,3 @@
 
 
 
-    //Entities
-    function application(cat, c, da, po, st) {
-        this.categories = cat;
-        this.company = c;
-        this.date = da;
-        this.position = po;
-        this.state = st;
-    }
-
-    function company(add, na, fn, can) {
-        this.address = add;
-        this.name = na;
-        this.fullname = fn;
-        this.candidates = can;
-    }
-
-    function user(fr, us) {
-        this.friends = fr;
-        this.username = us;
-    }
